@@ -1,0 +1,8 @@
+export const DELETE_PRODUCT = 'DELETE_PRODUCT';
+export const ADD_PRODUCT = 'ADD_PRODUCT';
+export const EDIT_PRODUCT = 'EDIT_PRODUCT';
+export const SET_NAV_KEY = 'SET_NAV_KEY';
+export const SET_PRODUCTS = 'SET_PRODUCTS';
+export const SET_ERROR_MESSAGE = 'SET_ERROR_MESSAGE';
+export const NO_PRODUCTS = 'NO_PRODUCTS';
+export const REQUEST_NETWORK_ERROR = 'REQUEST_NETWORK_ERROR';
