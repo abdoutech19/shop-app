@@ -16,7 +16,8 @@ import {Colors} from '../constants/Colors';
 import LinearGradient from 'react-native-linear-gradient';
 import ActionComponent from '../components/shop/ActionComponent';
 import {useNavigationState} from '@react-navigation/core';
-import CartIcon from '../components/shop/CartIcon';
+import CartIcon from '../components/shop/CartIconComponent';
+import LeftIcon from '../components/icons/LeftIcon';
 
 const ProductDetailScreen = ({route, navigation}) => {
   const {
@@ -56,7 +57,7 @@ const ProductDetailScreen = ({route, navigation}) => {
         <TouchableOpacity
           style={styles.backButton}
           onPress={() => navigation.goBack()}>
-          <Icon name="left" color="white" size={26} />
+          <LeftIcon height={42} width={42} weight={1} color="white" />
         </TouchableOpacity>
         <CartIcon style={styles.cart} navigation={navigation} color="white" />
       </LinearGradient>
@@ -130,6 +131,9 @@ const styles = StyleSheet.create({
     marginTop: 50,
     justifyContent: 'center',
     alignItems: 'center',
+    borderWidth: 1,
+    borderRadius: 10,
+    borderColor: 'white',
   },
   cart: {
     height: 40,

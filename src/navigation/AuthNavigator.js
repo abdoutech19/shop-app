@@ -13,6 +13,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import SignupScreen from '../screens/SignupScreen';
 import LoginScreen from '../screens/LoginScreen';
 import {Colors} from '../constants/Colors';
+import LeftIcon from '../components/icons/LeftIcon';
 
 const Stack = createStackNavigator();
 const textColor = `rgb(${Colors.text.primary})`;
@@ -47,10 +48,11 @@ const AuthNavigator = () => {
                 <TouchableOpacity
                   style={styles.backButton}
                   onPress={() => navigation.goBack()}>
-                  <Entypo
-                    name="chevron-left"
+                  <LeftIcon
+                    height={42}
+                    width={42}
+                    weight={1}
                     color={`rgb(${Colors.text.primary})`}
-                    size={30}
                   />
                 </TouchableOpacity>
                 <Text style={styles.screenTitle}>Welcome {'\n'}Back</Text>

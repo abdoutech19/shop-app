@@ -1,6 +1,5 @@
 import React, {useContext, useEffect} from 'react';
 import {StyleSheet, TouchableOpacity, View, Text} from 'react-native';
-import Icon from '../icons/LightIcons';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -10,10 +9,11 @@ import Animated, {
 
 import {Colors} from '../../constants/Colors';
 import {Context as CartContext} from '../../context/cart/CartContext';
+import CartIcon from '../icons/CartIcon';
 
 const invalidColor = `rgb(${Colors.danger})`;
 
-const CartIcon = ({navigation, color, style}) => {
+const CartIconComponent = ({navigation, color, style}) => {
   const {
     state: {items},
   } = useContext(CartContext);
@@ -46,7 +46,7 @@ const CartIcon = ({navigation, color, style}) => {
   return (
     <TouchableOpacity style={style} onPress={() => navigation.navigate('Cart')}>
       <View>
-        <Icon name="cart" color={color} size={26} />
+        <CartIcon color={color} height={52} width={52} />
 
         {Boolean(numofAllItems) && (
           <Animated.View style={[styles.badge, badgeAnimationStyle]}>
@@ -58,13 +58,13 @@ const CartIcon = ({navigation, color, style}) => {
   );
 };
 
-export default React.memo(CartIcon);
+export default React.memo(CartIconComponent);
 
 const styles = StyleSheet.create({
   badge: {
     position: 'absolute',
-    right: -8,
-    top: -8,
+    right: 8,
+    top: 4,
     backgroundColor: invalidColor,
     height: 16,
     width: 16,

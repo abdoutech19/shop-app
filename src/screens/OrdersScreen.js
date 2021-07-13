@@ -94,7 +94,7 @@ const OrdersScreen = ({navigation}) => {
         />
       }
       data={orders}
-      contentContainerStyle={{paddingHorizontal: 20, paddingBottom: 10}}
+      contentContainerStyle={{paddingHorizontal: 25, paddingBottom: 10}}
       renderItem={({item}) => <OrderItem orderItem={item} />}
     />
   );

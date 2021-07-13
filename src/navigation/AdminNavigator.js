@@ -8,6 +8,8 @@ import Icon from '../components/icons/LightIcons';
 import EditProductScreen from '../screens/EditProductScreen';
 import {Colors} from '../constants/Colors';
 import CreateProductScreen from '../screens/CreateProductScreen';
+import FriesOddIcon from '../components/icons/FriesOddIcon';
+import PlusIcon from '../components/icons/PlusIcon';
 
 const Stack = createStackNavigator();
 const screenOptions = {
@@ -33,15 +35,20 @@ const AdminNavigator = () => {
           title: 'My Products',
           headerLeft: () => (
             <TouchableOpacity
-              style={{marginLeft: 30}}
+              style={{marginLeft: 20}}
               onPress={() => navigation.toggleDrawer()}>
-              <Icon name="fries-odd" size={26} color={colors.text} />
+              <FriesOddIcon
+                height={52}
+                width={52}
+                weight={1}
+                color={colors.text}
+              />
             </TouchableOpacity>
           ),
           headerRight: () => (
             <TouchableOpacity
               onPress={() => navigation.navigate('CreateProduct')}>
-              <Icon name="plus" size={26} color={colors.text} />
+              <PlusIcon height={42} width={42} weight={1.3} />
             </TouchableOpacity>
           ),
           headerRightContainerStyle: {

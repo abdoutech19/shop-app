@@ -6,12 +6,15 @@ import ProductsScreen from '../screens/ProductsScreen';
 import ProductDetailScreen from '../screens/ProductDetailScreen';
 import {Colors} from '../constants/Colors';
 import CartScreen from '../screens/CartScreen';
-import CartIcon from '../components/shop/CartIcon';
+import CartIcon from '../components/shop/CartIconComponent';
 import {Context as CartContext} from '../context/cart/CartContext';
 import Icon from '../components/icons/LightIcons';
 import LeftIcon from '../components/icons/LeftIcon';
+import FriesOddIcon from '../components/icons/FriesOddIcon';
 
 const Stack = createStackNavigator();
+
+const textPrimaryColor = `rgb(${Colors.text.primary})`;
 
 const screenOptions = {
   headerTitleStyle: {
@@ -42,14 +45,19 @@ const ProductsNavigator = () => {
           headerRight: () => (
             <CartIcon
               navigation={navigation}
-              color={`rgb(${Colors.text.primary})`}
+              color={textPrimaryColor}
               style={styles.cart}
             />
           ),
           headerRightContainerStyle: styles.rightIcon,
           headerLeft: () => (
             <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
-              <Icon name="fries-odd" size={26} style={{textAlign: 'center'}} />
+              <FriesOddIcon
+                height={52}
+                width={52}
+                weight={1}
+                color={textPrimaryColor}
+              />
             </TouchableOpacity>
           ),
           headerLeftContainerStyle: styles.leftIcon,
@@ -69,7 +77,12 @@ const ProductsNavigator = () => {
             <TouchableOpacity
               style={styles.backButton}
               onPress={() => navigation.goBack()}>
-              <LeftIcon height={42} width={42} weight={1.5} />
+              <LeftIcon
+                height={42}
+                width={42}
+                weight={1}
+                color={textPrimaryColor}
+              />
             </TouchableOpacity>
           ),
         })}
@@ -94,7 +107,7 @@ const styles = StyleSheet.create({
     marginRight: 30,
   },
   leftIcon: {
-    marginLeft: 30,
+    marginLeft: 20,
   },
   cart: {
     height: 40,

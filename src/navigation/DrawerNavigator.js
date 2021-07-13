@@ -18,13 +18,14 @@ import {Colors} from '../constants/Colors';
 import OrdersScreen from '../screens/OrdersScreen';
 import AdminNavigator from './AdminNavigator';
 import {Context as AuthContext} from '../context/auth/AuthContext';
+import FriesOddIcon from '../components/icons/FriesOddIcon';
 
 const textColor = `rgba(${Colors.text.primary}, 0.7)`;
 const Drawer = createDrawerNavigator();
 
-const CartIcon = ({color}) => <Icon name="cart" size={20} color={color} />;
-const ShopIcon = ({color}) => <Icon name="shop" size={20} color={color} />;
-const userIcon = ({color}) => <Icon name="user" size={20} color={color} />;
+const CartIcon = ({color}) => <Icon name="cart-o" size={20} color={color} />;
+const ShopIcon = ({color}) => <Icon name="shop-o" size={20} color={color} />;
+const userIcon = ({color}) => <Icon name="user-o" size={20} color={color} />;
 
 const drawerContentOpts = {
   activeTintColor: `rgb(${Colors.primary})`,
@@ -96,9 +97,14 @@ const DrawerNavigator = () => {
           headerShown: true,
           headerLeft: () => (
             <TouchableOpacity
-              style={{marginLeft: 30}}
+              style={{marginLeft: 20}}
               onPress={() => navigation.toggleDrawer()}>
-              <Icon name="fries-odd" size={26} />
+              <FriesOddIcon
+                height={52}
+                width={52}
+                weight={1}
+                color={textColor}
+              />
             </TouchableOpacity>
           ),
         })}
