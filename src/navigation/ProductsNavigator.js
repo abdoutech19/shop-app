@@ -80,7 +80,7 @@ const ProductsNavigator = () => {
               <LeftIcon
                 height={42}
                 width={42}
-                weight={1}
+                weight={1.3}
                 color={textPrimaryColor}
               />
             </TouchableOpacity>

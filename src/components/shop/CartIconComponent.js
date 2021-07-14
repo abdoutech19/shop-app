@@ -35,7 +35,6 @@ const CartIconComponent = ({navigation, color, style}) => {
   useEffect(() => {
     if (numofAllItems) {
       opacity.value = withSpring(1, {
-        damping: 10,
         stiffness: 400,
       });
     } else {

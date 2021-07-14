@@ -8,7 +8,6 @@ import {
   Keyboard,
 } from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
-import Entypo from 'react-native-vector-icons/Entypo';
 
 import SignupScreen from '../screens/SignupScreen';
 import LoginScreen from '../screens/LoginScreen';
@@ -24,7 +23,7 @@ const AuthNavigator = () => {
       <Stack.Screen
         name="Signup"
         component={SignupScreen}
-        options={({navigation}) => ({
+        options={{
           header: () => (
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
               <View style={{...styles.headerStyle, justifyContent: 'flex-end'}}>
@@ -32,7 +31,7 @@ const AuthNavigator = () => {
               </View>
             </TouchableWithoutFeedback>
           ),
-        })}
+        }}
       />
       <Stack.Screen
         name="Login"
@@ -51,7 +50,7 @@ const AuthNavigator = () => {
                   <LeftIcon
                     height={42}
                     width={42}
-                    weight={1}
+                    weight={1.3}
                     color={`rgb(${Colors.text.primary})`}
                   />
                 </TouchableOpacity>
@@ -75,8 +74,8 @@ const styles = StyleSheet.create({
     paddingTop: 55,
   },
   backButton: {
-    height: 40,
-    width: 40,
+    height: 42,
+    width: 42,
     borderRadius: 10,
     borderWidth: 1,
     borderColor: textColor,

@@ -10,6 +10,7 @@ import {Colors} from '../constants/Colors';
 import CreateProductScreen from '../screens/CreateProductScreen';
 import FriesOddIcon from '../components/icons/FriesOddIcon';
 import PlusIcon from '../components/icons/PlusIcon';
+import LeftIcon from '../components/icons/LeftIcon';
 
 const Stack = createStackNavigator();
 const screenOptions = {
@@ -65,10 +66,11 @@ const AdminNavigator = () => {
             <TouchableOpacity
               style={styles.backButton}
               onPress={() => navigation.goBack()}>
-              <Icon
-                name="left"
+              <LeftIcon
+                height={42}
+                width={42}
+                weight={1.3}
                 color={`rgb(${Colors.text.primary})`}
-                size={26}
               />
             </TouchableOpacity>
           ),
@@ -84,10 +86,11 @@ const AdminNavigator = () => {
             <TouchableOpacity
               style={styles.backButton}
               onPress={() => navigation.goBack()}>
-              <Icon
-                name="left"
+              <LeftIcon
+                height={42}
+                width={42}
+                weight={1.3}
                 color={`rgb(${Colors.text.primary})`}
-                size={26}
               />
             </TouchableOpacity>
           ),
@@ -106,6 +109,9 @@ const styles = StyleSheet.create({
     width: 42,
     justifyContent: 'center',
     alignItems: 'center',
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: `rgb(${Colors.text.primary})`,
   },
   leftIcon: {
     marginLeft: 20,

@@ -1,39 +1,93 @@
-import React, {useState} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import FastImage from 'react-native-fast-image';
+import React, {useCallback} from 'react';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import Icon from '../icons/LightIcons';
 
 import {Colors} from '../../constants/Colors';
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withSpring,
+  useAnimatedRef,
+  runOnUI,
+  measure,
+} from 'react-native-reanimated';
+
+const LIST_ITEM_HEIGHT = 60;
 
 const OrderItem = ({orderItem: {date, totalAmount, items}}) => {
-  const [dropped, setDropped] = useState(false);
+  // Animations...
+  const rotation = useSharedValue(0);
+  const height = useSharedValue(0);
+  const aRef = useAnimatedRef();
+
+  const iconAnimatedStyle = useAnimatedStyle(() => ({
+    transform: [{rotate: `${rotation.value}deg`}],
+  }));
+
+  const listAnimatedStyle = useAnimatedStyle(() => ({
+    height: 1 + height.value,
+    opacity: height.value === 0 ? 0 : 1,
+    marginBottom: height.value > 0 ? 5 : 0,
+  }));
+
+  const handleItemPress = useCallback(() => {
+    if (height.value === 0 && rotation.value < 180) {
+      runOnUI(() => {
+        'worklet';
+        height.value = withSpring(measure(aRef).height, {
+          damping: 15,
+          stiffness: 150,
+        });
+      })();
+      rotation.value = withSpring(180, {
+        damping: 20,
+        stiffness: 250,
+      });
+    } else if (height.value > 0 && rotation.value > 0) {
+      runOnUI(() => {
+        'worklet';
+        height.value = withSpring(0, {
+          damping: 13,
+          stiffness: 130,
+          overshootClamping: true,
+        });
+      })();
+      rotation.value = withSpring(0, {
+        damping: 20,
+        stiffness: 250,
+      });
+    }
+  }, []);
 
   return (
     <View>
-      <TouchableOpacity
-        activeOpacity={0.75}
-        onPress={() => setDropped(val => !val)}>
+      <TouchableOpacity activeOpacity={0.75} onPress={handleItemPress}>
         <View style={styles.container}>
           <Text style={styles.date}>{date}</Text>
           <View style={styles.detailsContainer}>
             <Text style={styles.totalAmount}>${totalAmount.toFixed(2)}</Text>
-            <TouchableOpacity onPress={() => setDropped(val => !val)}>
-              <Icon
-                name={dropped ? 'arrow-drop-up' : 'arrow-drop-down'}
-                color={`rgb(${Colors.text.secondary})`}
-                size={32}
-              />
+            <TouchableOpacity onPress={handleItemPress}>
+              <Animated.View style={[iconAnimatedStyle, {marginEnd: 10}]}>
+                <View
+                  style={{
+                    backgroundColor: `rgb(${Colors.text.secondary})`,
+                    padding: 5,
+                    borderRadius: 50,
+                  }}>
+                  <Icon name="down" color="white" size={10} />
+                </View>
+              </Animated.View>
             </TouchableOpacity>
           </View>
         </View>
       </TouchableOpacity>
-      {dropped && (
-        <View style={styles.listContainer}>
+      <Animated.View style={[listAnimatedStyle, styles.listAnimatedContainer]}>
+        <View ref={aRef} style={styles.listContainer}>
           {items.map(cartItem => {
             return (
               <View key={cartItem.id} style={styles.cartItem}>
                 <View style={styles.imageContainer}>
-                  <FastImage
+                  <Image
                     style={styles.image}
                     source={{uri: cartItem.imageUrl}}
                   />
@@ -47,7 +101,7 @@ const OrderItem = ({orderItem: {date, totalAmount, items}}) => {
             );
           })}
         </View>
-      )}
+      </Animated.View>
     </View>
   );
 };
@@ -57,11 +111,11 @@ export default OrderItem;
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    height: 60,
+    height: LIST_ITEM_HEIGHT,
     backgroundColor: 'white',
     borderRadius: 10,
     alignItems: 'center',
-    marginTop: 10,
+    marginTop: 5,
     justifyContent: 'space-between',
     paddingHorizontal: 10,
   },
@@ -70,7 +124,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   totalAmount: {
-    marginEnd: 15,
+    marginEnd: 20,
     fontFamily: 'Lato-Black',
     fontSize: 20,
     color: `rgb(${Colors.text.primary})`,
@@ -83,9 +137,12 @@ const styles = StyleSheet.create({
   listContainer: {
     backgroundColor: 'rgba(255,255,255, 0.7)',
     borderRadius: 10,
-    marginTop: 5,
     paddingHorizontal: 10,
     paddingTop: 20,
+  },
+  listAnimatedContainer: {
+    overflow: 'hidden',
+    marginTop: 5,
   },
   cartItem: {
     flexDirection: 'row',
