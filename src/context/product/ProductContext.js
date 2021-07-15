@@ -9,12 +9,15 @@ import {
   SET_ERROR_MESSAGE,
   NO_PRODUCTS,
   REQUEST_NETWORK_ERROR,
+  ADD_TO_FAVORITES,
+  REMOVE_FROM_FAVORITES,
 } from './types';
 import {Product} from '../../models/product';
 
 const initialState = {
   products: [],
   userProducts: [],
+  favorites: [],
   productsNavKey: '',
   error: {},
 };
@@ -65,6 +68,17 @@ const productsReducer = (state, {type, payload}) => {
           ),
         };
       }
+    }
+
+    case ADD_TO_FAVORITES: {
+      return {...state, favorites: [...state.favorites, payload]};
+    }
+
+    case REMOVE_FROM_FAVORITES: {
+      return {
+        ...state,
+        favorites: state.favorites.filter(prod => prod.id !== payload),
+      };
     }
 
     case SET_NAV_KEY: {
@@ -183,8 +197,23 @@ const getProducts = dispatch => async userId => {
   }
 };
 
+const addToFavorites = dispatch => product => {
+  dispatch({type: ADD_TO_FAVORITES, payload: product});
+};
+const removeFromFavorites = dispatch => prodId => {
+  dispatch({type: REMOVE_FROM_FAVORITES, payload: prodId});
+};
+
 export const {Context, Provider} = createDataContext(
   productsReducer,
   initialState,
-  {deleteProduct, addProduct, editProduct, setProductsNavKey, getProducts},
+  {
+    deleteProduct,
+    addProduct,
+    editProduct,
+    setProductsNavKey,
+    getProducts,
+    addToFavorites,
+    removeFromFavorites,
+  },
 );

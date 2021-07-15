@@ -10,8 +10,13 @@ import Animated, {
   withSpring,
 } from 'react-native-reanimated';
 
-const FavoriteButton = () => {
-  const [isFavorite, setIsFavorite] = useState(false);
+const FavoriteButton = ({
+  favorite,
+  product,
+  addToFavorite,
+  removeFromFavorite,
+}) => {
+  const [isFavorite, setIsFavorite] = useState(favorite);
 
   const scaleFilled = useSharedValue(1);
   const scaleOutline = useSharedValue(1);
@@ -32,7 +37,14 @@ const FavoriteButton = () => {
     scaleFilled.value = withSpring(0, {overshootClamping: true});
   }, [isFavorite]);
 
-  const handleOnPress = () => setIsFavorite(val => !val);
+  const handleOnPress = () => {
+    setIsFavorite(val => !val);
+    if (isFavorite) {
+      removeFromFavorite(product.id);
+      return;
+    }
+    addToFavorite(product);
+  };
 
   return (
     <TouchableOpacity

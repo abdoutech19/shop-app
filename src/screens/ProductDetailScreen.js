@@ -26,21 +26,25 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
-import HeartOutlineIcon from '../components/icons/HeartOutlineIcon';
 import FavoriteButton from '../components/shop/FavoriteButton';
 
 const snapValue = 24;
 
 const ProductDetailScreen = ({route, navigation}) => {
   const {
-    state: {products},
+    state: {products, favorites},
     setProductsNavKey,
+    addToFavorites,
+    removeFromFavorites,
   } = useContext(ProductContext);
 
   const {addToCart} = useContext(CartContext);
 
   const prodId = route.params?.prodId;
   const selectedProd = products.find(prod => prod.id === prodId);
+
+  const isFavorite = favorites.some(prod => prod.id === prodId);
+  console.log(favorites.length);
 
   const key = useNavigationState(state => state.key);
   useEffect(() => {
@@ -131,25 +135,12 @@ const ProductDetailScreen = ({route, navigation}) => {
       <StatusBar barStyle="light-content" />
       <View style={styles.image}>
         <Image style={styles.image} source={{uri: selectedProd.imageUrl}} />
-        {/* <TouchableOpacity
-          style={{
-            height: 52,
-            width: 52,
-            backgroundColor: `rgba(255,255,255, 0.7)`,
-            position: 'absolute',
-            right: 30,
-            bottom: 85,
-            borderRadius: 50,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <HeartOutlineIcon
-            height={48}
-            width={48}
-            color={`rgba(${Colors.text.primary}, 0.8)`}
-          />
-        </TouchableOpacity> */}
-        <FavoriteButton />
+        <FavoriteButton
+          product={selectedProd}
+          favorite={isFavorite}
+          addToFavorite={addToFavorites}
+          removeFromFavorite={removeFromFavorites}
+        />
       </View>
       <LinearGradient
         colors={[
