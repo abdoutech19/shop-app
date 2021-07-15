@@ -6,7 +6,7 @@ export const Colors = {
   card: '253, 253, 255',
   accent: '255, 193, 7',
   accentTwo: '20, 163, 101',
-  danger: '224, 0, 15',
+  danger: '224, 67, 78',
   warning: '255,174,66',
   text: {
     primary: '15, 5, 33',

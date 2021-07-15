@@ -21,12 +21,13 @@ import CartIcon from '../components/shop/CartIconComponent';
 import LeftIcon from '../components/icons/LeftIcon';
 import {PanGestureHandler, State} from 'react-native-gesture-handler';
 import Animated, {
-  interpolate,
   useAnimatedGestureHandler,
   useAnimatedStyle,
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
+import HeartOutlineIcon from '../components/icons/HeartOutlineIcon';
+import FavoriteButton from '../components/shop/FavoriteButton';
 
 const snapValue = 24;
 
@@ -67,8 +68,8 @@ const ProductDetailScreen = ({route, navigation}) => {
     transform: [{scale: withSpring(scale.value, {stiffness: 300})}],
     backgroundColor:
       scale.value > 1
-        ? `rgba(${Colors.text.primary}, 0.5)`
-        : `rgba(${Colors.text.primary}, 0.3)`,
+        ? `rgba(${Colors.primaryDark}, 0.5)`
+        : `rgba(${Colors.primaryDark}, 0.3)`,
   }));
 
   const resizeEventHandler = useAnimatedGestureHandler({
@@ -112,7 +113,7 @@ const ProductDetailScreen = ({route, navigation}) => {
       nativeEvent.state === State.BEGAN ||
       nativeEvent.state === State.ACTIVE
     ) {
-      scale.value = 1.5;
+      scale.value = 1.3;
       return;
     }
     scale.value = 1;
@@ -128,7 +129,28 @@ const ProductDetailScreen = ({route, navigation}) => {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />
-      <Image style={styles.image} source={{uri: selectedProd.imageUrl}} />
+      <View style={styles.image}>
+        <Image style={styles.image} source={{uri: selectedProd.imageUrl}} />
+        {/* <TouchableOpacity
+          style={{
+            height: 52,
+            width: 52,
+            backgroundColor: `rgba(255,255,255, 0.7)`,
+            position: 'absolute',
+            right: 30,
+            bottom: 85,
+            borderRadius: 50,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <HeartOutlineIcon
+            height={48}
+            width={48}
+            color={`rgba(${Colors.text.primary}, 0.8)`}
+          />
+        </TouchableOpacity> */}
+        <FavoriteButton />
+      </View>
       <LinearGradient
         colors={[
           `rgba(${Colors.primaryDarker}, 0.85)`,
@@ -203,8 +225,7 @@ const styles = StyleSheet.create({
   },
   handle: {
     height: 5,
-    width: 40,
-    // backgroundColor: `rgba(${Colors.text.primary}, 0.3)`,
+    width: 30,
     alignSelf: 'center',
     borderRadius: 50,
   },
