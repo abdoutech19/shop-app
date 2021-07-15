@@ -7,6 +7,7 @@ import {
   Image,
   StatusBar,
   ScrollView,
+  useWindowDimensions,
 } from 'react-native';
 import Icon from '../components/icons/LightIcons';
 
@@ -18,6 +19,16 @@ import ActionComponent from '../components/shop/ActionComponent';
 import {useNavigationState} from '@react-navigation/core';
 import CartIcon from '../components/shop/CartIconComponent';
 import LeftIcon from '../components/icons/LeftIcon';
+import {PanGestureHandler, State} from 'react-native-gesture-handler';
+import Animated, {
+  interpolate,
+  useAnimatedGestureHandler,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from 'react-native-reanimated';
+
+const snapValue = 24;
 
 const ProductDetailScreen = ({route, navigation}) => {
   const {
@@ -42,6 +53,78 @@ const ProductDetailScreen = ({route, navigation}) => {
   if (!selectedProd) {
     return null;
   }
+
+  // Animation...
+  const dimentions = useWindowDimensions();
+  const sheetHeight = useSharedValue(0);
+  const scale = useSharedValue(1);
+
+  const sheetAnimtedStyle = useAnimatedStyle(() => ({
+    height: sheetHeight.value,
+  }));
+
+  const handleAnimatedStyle = useAnimatedStyle(() => ({
+    transform: [{scale: withSpring(scale.value, {stiffness: 300})}],
+    backgroundColor:
+      scale.value > 1
+        ? `rgba(${Colors.text.primary}, 0.5)`
+        : `rgba(${Colors.text.primary}, 0.3)`,
+  }));
+
+  const resizeEventHandler = useAnimatedGestureHandler({
+    onStart: (event, ctx) => {
+      ctx.startY = event.absoluteY;
+      ctx.startHeight = sheetHeight.value;
+    },
+    onActive: (event, ctx) => {
+      sheetHeight.value = withSpring(
+        ctx.startHeight + (ctx.startY - event.absoluteY),
+      );
+    },
+    onEnd: (_, ctx) => {
+      if (
+        sheetHeight.value - ctx.startHeight > snapValue &&
+        ctx.startHeight < dimentions.height / 1.5
+      ) {
+        sheetHeight.value = withSpring(dimentions.height / 1.5);
+      } else if (
+        sheetHeight.value - ctx.startHeight < snapValue &&
+        ctx.startHeight < dimentions.height / 1.5
+      ) {
+        sheetHeight.value = withSpring(dimentions.height / 3);
+      }
+      if (
+        sheetHeight.value - ctx.startHeight > snapValue &&
+        ctx.startHeight > dimentions.height / 3
+      ) {
+        sheetHeight.value = withSpring(dimentions.height / 1.5);
+      } else if (
+        sheetHeight.value - ctx.startHeight < snapValue &&
+        ctx.startHeight > dimentions.height / 3
+      ) {
+        sheetHeight.value = withSpring(dimentions.height / 3);
+      }
+    },
+  });
+
+  const touchEventHandler = ({nativeEvent}) => {
+    if (
+      nativeEvent.state === State.BEGAN ||
+      nativeEvent.state === State.ACTIVE
+    ) {
+      scale.value = 1.5;
+      return;
+    }
+    scale.value = 1;
+  };
+
+  useEffect(() => {
+    sheetHeight.value = withSpring(dimentions.height / 3, {
+      damping: 9,
+      stiffness: 50,
+    });
+  }, []);
+
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />
@@ -61,13 +144,26 @@ const ProductDetailScreen = ({route, navigation}) => {
         </TouchableOpacity>
         <CartIcon style={styles.cart} navigation={navigation} color="white" />
       </LinearGradient>
-      <View style={styles.prodInfo}>
-        <Text style={styles.title}>{selectedProd.title}</Text>
-        <View style={styles.line} />
-        <ScrollView>
-          <Text style={styles.description}>{selectedProd.description}</Text>
-        </ScrollView>
-      </View>
+      <Animated.View style={sheetAnimtedStyle}>
+        <View style={styles.prodInfo}>
+          <PanGestureHandler
+            onHandlerStateChange={touchEventHandler}
+            onGestureEvent={resizeEventHandler}>
+            <Animated.View
+              style={{
+                height: 50,
+                width: '100%',
+                justifyContent: 'center',
+              }}>
+              <Animated.View style={[styles.handle, handleAnimatedStyle]} />
+            </Animated.View>
+          </PanGestureHandler>
+          <Text style={styles.title}>{selectedProd.title}</Text>
+          <ScrollView>
+            <Text style={styles.description}>{selectedProd.description}</Text>
+          </ScrollView>
+        </View>
+      </Animated.View>
       <ActionComponent
         actionTitle="To cart"
         label="Price"
@@ -94,34 +190,34 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   image: {
-    height: '55%',
+    position: 'relative',
+    flex: 1,
     width: '100%',
   },
   prodInfo: {
     paddingHorizontal: 40,
-    paddingVertical: 20,
     backgroundColor: `rgb(${Colors.background})`,
-    borderRadius: 60,
+    borderRadius: 70,
+    flex: 1,
     top: -55,
-    height: '45%',
+  },
+  handle: {
+    height: 5,
+    width: 40,
+    // backgroundColor: `rgba(${Colors.text.primary}, 0.3)`,
+    alignSelf: 'center',
+    borderRadius: 50,
   },
   title: {
     fontFamily: 'Lato-Black',
     fontSize: 32,
     color: `rgb(${Colors.text.primary})`,
-    marginBottom: 10,
-  },
-  line: {
-    backgroundColor: `rgb(${Colors.primary})`,
-    height: 5,
-    width: '18%',
-    borderRadius: 50,
-    marginBottom: 25,
+    marginBottom: 30,
   },
   description: {
     fontFamily: 'Lato-Regular',
     fontSize: 18,
-    color: `rgb(${Colors.text.primary})`,
+    color: `rgba(${Colors.text.primary}, 0.7)`,
     paddingRight: '20%',
   },
   backButton: {

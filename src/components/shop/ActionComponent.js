@@ -137,8 +137,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     justifyContent: 'space-between',
     backgroundColor: 'white',
-    borderTopRightRadius: 60,
-    borderTopLeftRadius: 60,
+    borderTopRightRadius: 50,
+    borderTopLeftRadius: 50,
   },
   actionEnabled: {
     height: '100%',
