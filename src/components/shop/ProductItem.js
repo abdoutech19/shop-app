@@ -48,6 +48,7 @@ const ProductItem = ({
   ActionIcon,
   actionTitle,
   params,
+  hideActionButton,
 }) => {
   const navigation = useNavigation();
 
@@ -58,35 +59,20 @@ const ProductItem = ({
     });
   }, [product]);
 
-  // const animState = useSharedValue(0);
-  // const imageWidth = useSharedValue(0);
-
   const actionPressHandler = useCallback(() => {
     if (params) {
       onActionPress(product, params);
       return;
     }
-    //animState.value = 1;
+
     onActionPress(product);
   }, [product, params]);
-
-  // const animatedStyle = useAnimatedStyle(() => {
-  //   console.log('Width: ', imageWidth.value);
-  //   return {
-  //     borderRadius: withSpring(interpolate(animState.value, [0, 1], [10, 50])),
-  //     height: withSpring(interpolate(animState.value, [0, 1], [260, 20])),
-  //     width: withSpring(interpolate(animState.value, [0, 1], [150, 20])),
-  //   };
-  // });
 
   return (
     <BoxShadow setting={shadowOpts}>
       <TouchableOpacity activeOpacity={0.8} onPress={onItemPress}>
         <View style={styles.contentContainer}>
           <Animated.Image
-            // onLayout={event => {
-            //   imageWidth.value = event.nativeEvent.layout.width;
-            // }}
             style={[styles.image]}
             source={{uri: product.imageUrl}}
           />
@@ -95,11 +81,13 @@ const ProductItem = ({
               <Text style={styles.title}>{product.title}</Text>
               <Text style={styles.price}>${product.price.toFixed(2)}</Text>
             </View>
-            <ActionButton
-              title={actionTitle}
-              Icon={ActionIcon}
-              onPress={actionPressHandler}
-            />
+            {!hideActionButton && (
+              <ActionButton
+                title={actionTitle}
+                Icon={ActionIcon}
+                onPress={actionPressHandler}
+              />
+            )}
           </View>
         </View>
       </TouchableOpacity>

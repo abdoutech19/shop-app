@@ -1,4 +1,10 @@
-import React, {useCallback, useContext, useEffect, useState} from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import {
   StyleSheet,
   FlatList,
@@ -26,6 +32,7 @@ const ProductsScreen = ({navigation}) => {
   const {
     state: {products, error},
     getProducts,
+    getFavorites,
   } = useContext(ProductContext);
 
   const {addToCart} = useContext(CartContext);
@@ -35,8 +42,15 @@ const ProductsScreen = ({navigation}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
+  const favoritesLoaded = useRef(false);
+
   const loadData = async () => {
     await getProducts(userId);
+
+    if (!favoritesLoaded.current) {
+      await getFavorites();
+      favoritesLoaded.current = true;
+    }
   };
 
   useEffect(() => {

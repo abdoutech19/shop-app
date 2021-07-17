@@ -1,21 +1,16 @@
-import React, {useContext, useEffect} from 'react';
+import React from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
-import {createStackNavigator} from '@react-navigation/stack';
 
-import ProductsScreen from '../screens/ProductsScreen';
-import ProductDetailScreen from '../screens/ProductDetailScreen';
-import {Colors} from '../constants/Colors';
-import CartScreen from '../screens/CartScreen';
-import CartIcon from '../components/shop/CartIconComponent';
-import {Context as CartContext} from '../context/cart/CartContext';
-import LeftIcon from '../components/icons/LeftIcon';
+import {createStackNavigator} from '@react-navigation/stack';
+import FavoritesScreen from '../screens/FavoritesScreen';
 import FriesOddIcon from '../components/icons/FriesOddIcon';
+import {Colors} from '../constants/Colors';
+import ProductDetailScreen from '../screens/ProductDetailScreen';
+import CartScreen from '../screens/CartScreen';
+import LeftIcon from '../components/icons/LeftIcon';
 
 const Stack = createStackNavigator();
-
-const textPrimaryColor = `rgb(${Colors.text.primary})`;
-
-const screenOptions = {
+const screenOpts = {
   headerTitleStyle: {
     fontFamily: 'Lato-Black',
     fontSize: 28,
@@ -25,42 +20,30 @@ const screenOptions = {
     height: 120,
   },
 };
+const textColor = `rgba(${Colors.text.primary}, 0.7)`;
+const textPrimaryColor = `rgb(${Colors.text.primary})`;
 
-const ProductsNavigator = () => {
-  const {clearCart} = useContext(CartContext);
-
-  useEffect(() => {
-    return () => {
-      clearCart();
-    };
-  }, []);
+const FavoritesNavigator = ({navigation}) => {
   return (
-    <Stack.Navigator screenOptions={screenOptions}>
+    <Stack.Navigator screenOptions={screenOpts}>
       <Stack.Screen
-        name="Products"
-        component={ProductsScreen}
-        options={({navigation}) => ({
-          title: 'Marketplace',
-          headerRight: () => (
-            <CartIcon
-              navigation={navigation}
-              color={textPrimaryColor}
-              style={styles.cart}
-            />
-          ),
-          headerRightContainerStyle: styles.rightIcon,
+        name="Favorites"
+        component={FavoritesScreen}
+        options={{
           headerLeft: () => (
-            <TouchableOpacity onPress={navigation.toggleDrawer}>
+            <TouchableOpacity
+              style={{marginLeft: 20}}
+              onPress={navigation.toggleDrawer}>
               <FriesOddIcon
                 height={52}
                 width={52}
                 weight={1}
-                color={textPrimaryColor}
+                color={textColor}
               />
             </TouchableOpacity>
           ),
-          headerLeftContainerStyle: styles.leftIcon,
-        })}
+          title: 'My Favorites',
+        }}
       />
       <Stack.Screen
         name="ProductDetail"
@@ -90,7 +73,7 @@ const ProductsNavigator = () => {
   );
 };
 
-export default ProductsNavigator;
+export default FavoritesNavigator;
 
 const styles = StyleSheet.create({
   backButton: {
@@ -101,17 +84,5 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     borderWidth: 1,
     borderRadius: 10,
-  },
-  rightIcon: {
-    marginRight: 30,
-  },
-  leftIcon: {
-    marginLeft: 20,
-  },
-  cart: {
-    height: 40,
-    width: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
 });

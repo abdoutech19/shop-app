@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useCallback, useContext, useEffect} from 'react';
 import {
   StyleSheet,
   Text,
@@ -28,6 +28,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import FavoriteButton from '../components/shop/FavoriteButton';
 
+const CartIconOutline = () => <Icon name="cart-o" color="white" size={20} />;
 const snapValue = 24;
 
 const ProductDetailScreen = ({route, navigation}) => {
@@ -44,7 +45,6 @@ const ProductDetailScreen = ({route, navigation}) => {
   const selectedProd = products.find(prod => prod.id === prodId);
 
   const isFavorite = favorites.some(prod => prod.id === prodId);
-  console.log(favorites.length);
 
   const key = useNavigationState(state => state.key);
   useEffect(() => {
@@ -54,6 +54,8 @@ const ProductDetailScreen = ({route, navigation}) => {
       setProductsNavKey('');
     };
   }, []);
+
+  const onAddToCart = useCallback(() => addToCart(selectedProd), []);
 
   if (!selectedProd) {
     return null;
@@ -137,22 +139,20 @@ const ProductDetailScreen = ({route, navigation}) => {
         <Image style={styles.image} source={{uri: selectedProd.imageUrl}} />
         <FavoriteButton
           product={selectedProd}
-          favorite={isFavorite}
+          isFavorite={isFavorite}
           addToFavorite={addToFavorites}
           removeFromFavorite={removeFromFavorites}
         />
       </View>
       <LinearGradient
         colors={[
-          `rgba(${Colors.primaryDarker}, 0.85)`,
+          `rgba(${Colors.primaryDarker}, 0.70)`,
           `rgba(${Colors.primaryDarker}, 0)`,
         ]}
         style={styles.gradient}
         start={{x: 0, y: 0}}
-        end={{x: 0, y: 0.4}}>
-        <TouchableOpacity
-          style={styles.backButton}
-          onPress={() => navigation.goBack()}>
+        end={{x: 0, y: 1}}>
+        <TouchableOpacity style={styles.backButton} onPress={navigation.goBack}>
           <LeftIcon height={42} width={42} weight={1.3} color="white" />
         </TouchableOpacity>
         <CartIcon style={styles.cart} navigation={navigation} color="white" />
@@ -162,12 +162,7 @@ const ProductDetailScreen = ({route, navigation}) => {
           <PanGestureHandler
             onHandlerStateChange={touchEventHandler}
             onGestureEvent={resizeEventHandler}>
-            <Animated.View
-              style={{
-                height: 50,
-                width: '100%',
-                justifyContent: 'center',
-              }}>
+            <Animated.View style={styles.handleContainer}>
               <Animated.View style={[styles.handle, handleAnimatedStyle]} />
             </Animated.View>
           </PanGestureHandler>
@@ -181,8 +176,8 @@ const ProductDetailScreen = ({route, navigation}) => {
         actionTitle="To cart"
         label="Price"
         amount={selectedProd.price}
-        Icon={() => <Icon name="cart-o" color="white" size={20} />}
-        onActionPress={() => addToCart(selectedProd)}
+        Icon={CartIconOutline}
+        onActionPress={onAddToCart}
         actionEnabled
       />
     </View>
@@ -196,7 +191,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   gradient: {
-    height: '55%',
+    height: '20%',
     width: '100%',
     position: 'absolute',
     flexDirection: 'row',
@@ -213,6 +208,11 @@ const styles = StyleSheet.create({
     borderRadius: 70,
     flex: 1,
     top: -55,
+  },
+  handleContainer: {
+    height: 50,
+    width: '100%',
+    justifyContent: 'center',
   },
   handle: {
     height: 5,

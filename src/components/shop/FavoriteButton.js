@@ -11,15 +11,13 @@ import Animated, {
 } from 'react-native-reanimated';
 
 const FavoriteButton = ({
-  favorite,
+  isFavorite,
   product,
   addToFavorite,
   removeFromFavorite,
 }) => {
-  const [isFavorite, setIsFavorite] = useState(favorite);
-
-  const scaleFilled = useSharedValue(1);
-  const scaleOutline = useSharedValue(1);
+  const scaleFilled = useSharedValue(0);
+  const scaleOutline = useSharedValue(0);
   const outlineAnimatedStyle = useAnimatedStyle(() => ({
     transform: [{scale: scaleOutline.value}],
   }));
@@ -29,16 +27,15 @@ const FavoriteButton = ({
 
   useEffect(() => {
     if (isFavorite) {
-      scaleFilled.value = withSpring(1, {damping: 6, stiffness: 120});
+      scaleFilled.value = withSpring(1, {stiffness: 150});
       scaleOutline.value = withSpring(0, {overshootClamping: true});
       return;
     }
-    scaleOutline.value = withSpring(1);
+    scaleOutline.value = withSpring(1, {damping: 15, stiffness: 150});
     scaleFilled.value = withSpring(0, {overshootClamping: true});
   }, [isFavorite]);
 
   const handleOnPress = () => {
-    setIsFavorite(val => !val);
     if (isFavorite) {
       removeFromFavorite(product.id);
       return;
@@ -49,17 +46,7 @@ const FavoriteButton = ({
   return (
     <TouchableOpacity
       activeOpacity={1}
-      style={{
-        height: 52,
-        width: 52,
-        backgroundColor: `rgba(255,255,255, 0.7)`,
-        position: 'absolute',
-        right: 30,
-        bottom: 85,
-        borderRadius: 50,
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
+      style={styles.favButton}
       onPress={handleOnPress}>
       <Animated.View style={[outlineAnimatedStyle, styles.absolutePos]}>
         <HeartOutlineIcon
@@ -75,10 +62,21 @@ const FavoriteButton = ({
   );
 };
 
-export default FavoriteButton;
+export default React.memo(FavoriteButton);
 
 const styles = StyleSheet.create({
   absolutePos: {
     position: 'absolute',
+  },
+  favButton: {
+    height: 52,
+    width: 52,
+    backgroundColor: `rgba(255,255,255, 0.7)`,
+    position: 'absolute',
+    right: 30,
+    bottom: 85,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

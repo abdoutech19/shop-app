@@ -19,6 +19,7 @@ import OrdersScreen from '../screens/OrdersScreen';
 import AdminNavigator from './AdminNavigator';
 import {Context as AuthContext} from '../context/auth/AuthContext';
 import FriesOddIcon from '../components/icons/FriesOddIcon';
+import FavoritesNavigator from './FavoritesNavigator';
 
 const textColor = `rgba(${Colors.text.primary}, 0.7)`;
 const Drawer = createDrawerNavigator();
@@ -26,6 +27,7 @@ const Drawer = createDrawerNavigator();
 const CartIcon = ({color}) => <Icon name="cart-o" size={20} color={color} />;
 const ShopIcon = ({color}) => <Icon name="shop-o" size={20} color={color} />;
 const userIcon = ({color}) => <Icon name="user-o" size={20} color={color} />;
+const starIcon = ({color}) => <Icon name="star-o" size={20} color={color} />;
 
 const drawerContentOpts = {
   activeTintColor: `rgb(${Colors.primary})`,
@@ -98,7 +100,7 @@ const DrawerNavigator = () => {
           headerLeft: () => (
             <TouchableOpacity
               style={{marginLeft: 20}}
-              onPress={() => navigation.toggleDrawer()}>
+              onPress={navigation.toggleDrawer}>
               <FriesOddIcon
                 height={52}
                 width={52}
@@ -107,15 +109,24 @@ const DrawerNavigator = () => {
               />
             </TouchableOpacity>
           ),
+          drawerLabel: 'Orders',
         })}
+      />
+      <Drawer.Screen
+        name="FavoritesFlow"
+        component={FavoritesNavigator}
+        options={{
+          drawerIcon: starIcon,
+          drawerLabel: 'Favorites',
+        }}
       />
       <Drawer.Screen
         name="AdminFlow"
         component={AdminNavigator}
-        options={() => ({
+        options={{
           title: 'My Products',
           drawerIcon: userIcon,
-        })}
+        }}
       />
     </Drawer.Navigator>
   );

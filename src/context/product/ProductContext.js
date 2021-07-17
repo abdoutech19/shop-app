@@ -11,8 +11,10 @@ import {
   REQUEST_NETWORK_ERROR,
   ADD_TO_FAVORITES,
   REMOVE_FROM_FAVORITES,
+  SET_FAVORITES,
 } from './types';
 import {Product} from '../../models/product';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const initialState = {
   products: [],
@@ -71,14 +73,39 @@ const productsReducer = (state, {type, payload}) => {
     }
 
     case ADD_TO_FAVORITES: {
+      const favoritesIds = JSON.stringify([
+        ...state.favorites.map(prod => prod.id),
+        payload.id,
+      ]);
+      AsyncStorage.setItem('favorites', favoritesIds);
+
       return {...state, favorites: [...state.favorites, payload]};
     }
 
     case REMOVE_FROM_FAVORITES: {
+      const newFavorites = state.favorites.filter(prod => prod.id !== payload);
+
+      const favoritesIds = JSON.stringify([
+        ...newFavorites.map(prod => prod.id),
+      ]);
+      AsyncStorage.setItem('favorites', favoritesIds);
+
       return {
         ...state,
-        favorites: state.favorites.filter(prod => prod.id !== payload),
+        favorites: newFavorites,
       };
+    }
+
+    case SET_FAVORITES: {
+      const favorites = [];
+      payload.forEach(id => {
+        let product = state.products.find(prod => prod.id === id);
+        if (product) {
+          favorites.push(product);
+        }
+      });
+
+      return {...state, favorites: favorites};
     }
 
     case SET_NAV_KEY: {
@@ -203,6 +230,13 @@ const addToFavorites = dispatch => product => {
 const removeFromFavorites = dispatch => prodId => {
   dispatch({type: REMOVE_FROM_FAVORITES, payload: prodId});
 };
+const getFavorites = dispatch => async () => {
+  const favoritesJson = await AsyncStorage.getItem('favorites');
+  const favoritesIds = JSON.parse(favoritesJson);
+  if (favoritesIds?.length) {
+    dispatch({type: SET_FAVORITES, payload: favoritesIds});
+  }
+};
 
 export const {Context, Provider} = createDataContext(
   productsReducer,
@@ -215,5 +249,6 @@ export const {Context, Provider} = createDataContext(
     getProducts,
     addToFavorites,
     removeFromFavorites,
+    getFavorites,
   },
 );
