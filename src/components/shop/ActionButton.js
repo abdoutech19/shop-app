@@ -1,12 +1,28 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+
+import {Context as CartContext} from '../../context/cart/CartContext';
 
 import {Colors} from '../../constants/Colors';
 
-const ActionButton = ({title, onPress, Icon}) => {
+const ActionButton = ({title, onPress, Icon, prodId}) => {
+  const {
+    state: {items},
+  } = useContext(CartContext);
+
+  const isInCart = prodId && items.hasOwnProperty(`${prodId}`);
+
   return (
     <TouchableOpacity
-      style={styles.action}
+      style={[
+        styles.action,
+        {
+          backgroundColor: isInCart
+            ? `rgba(${Colors.primary}, 0.3)`
+            : `rgb(${Colors.primary})`,
+        },
+      ]}
+      disabled={isInCart}
       activeOpacity={0.9}
       onPress={onPress}>
       <Icon />
@@ -25,7 +41,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
-    backgroundColor: `rgb(${Colors.primary})`,
+    // backgroundColor: `rgb(${Colors.primary})`,
   },
   actionTitle: {
     fontFamily: 'Lato-Bold',

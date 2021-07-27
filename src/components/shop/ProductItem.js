@@ -1,20 +1,7 @@
-import {useNavigation} from '@react-navigation/native';
 import React, {useCallback} from 'react';
+import {useNavigation} from '@react-navigation/native';
 import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import {BoxShadow} from 'react-native-shadow';
-import FastImage from 'react-native-fast-image';
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-  useAnimatedGestureHandler,
-  interpolate,
-  useAnimatedRef,
-  useDerivedValue,
-  measure,
-  runOnUI,
-} from 'react-native-reanimated';
-import {PanGestureHandler} from 'react-native-gesture-handler';
 
 import {Colors} from '../../constants/Colors';
 import ActionButton from './ActionButton';
@@ -64,7 +51,6 @@ const ProductItem = ({
       onActionPress(product, params);
       return;
     }
-
     onActionPress(product);
   }, [product, params]);
 
@@ -72,10 +58,7 @@ const ProductItem = ({
     <BoxShadow setting={shadowOpts}>
       <TouchableOpacity activeOpacity={0.8} onPress={onItemPress}>
         <View style={styles.contentContainer}>
-          <Animated.Image
-            style={[styles.image]}
-            source={{uri: product.imageUrl}}
-          />
+          <Image style={[styles.image]} source={{uri: product.imageUrl}} />
           <View style={styles.infoSection}>
             <View style={styles.details}>
               <Text style={styles.title}>{product.title}</Text>
@@ -86,6 +69,7 @@ const ProductItem = ({
                 title={actionTitle}
                 Icon={ActionIcon}
                 onPress={actionPressHandler}
+                prodId={product.id}
               />
             )}
           </View>

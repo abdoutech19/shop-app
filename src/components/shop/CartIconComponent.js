@@ -18,10 +18,7 @@ const CartIconComponent = ({navigation, color, style}) => {
     state: {items},
   } = useContext(CartContext);
 
-  const numofAllItems = Object.values(items).reduce(
-    (sum, item) => sum + item.quantity,
-    0,
-  );
+  const numofAllItems = Object.values(items).length;
 
   // Animations...
 
