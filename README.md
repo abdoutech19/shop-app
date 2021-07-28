@@ -51,12 +51,7 @@ Or run the project in release mode for a smoother experience
 
     $ npx react-native run-android --variant=release
 
-</br>
-
 ***NOTE:** this project uses the [Hermes](https://reactnative.dev/docs/hermes) JavaScript engine to improve start-up time, decrease memory usage, and reduce app size. For these improvments to take effect, the app has to be running in *release* mode, otherwise, Hermes won't have any effect on improving performance in *debug* mode, in fact, some developeres have noticed slower results with the Hermes engine enabled in *debug* mode.*
-
-</br>
-
 
 ## Demo
 To test the app in your android device, you can download the **.apk** file from here: [shopping](https://drive.google.com/file/d/1QzceGiaLU72TZSFnQF_250pXH2KnCQHX/view?usp=sharing).
@@ -67,12 +62,9 @@ To test the app in your android device, you can download the **.apk** file from 
 
 https://user-images.githubusercontent.com/44240293/127367181-ba188c22-997d-4280-8cff-b7867ebf324c.mp4
 
-</br>
-
 ### Shopping
 https://user-images.githubusercontent.com/44240293/127366818-a3f6316b-e770-4a8e-8cd0-59c08df8361d.mp4
 
-</br>
 
 ## License
 Distributed under the MIT License. See LICENSE for more information.
