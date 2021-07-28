@@ -53,6 +53,14 @@ Or run the project in release mode for a smoother experience
 
 ***NOTE:** this project uses the [Hermes](https://reactnative.dev/docs/hermes) JavaScript engine to improve start-up time, decrease memory usage, and reduce app size. For these improvments to take effect, the app has to be running in *release* mode, otherwise, Hermes won't have any effect on improving performance in *debug* mode, in fact, some developeres have noticed slower results with the Hermes engine enabled in *debug* mode.*
 
+## Built with
+- [React Native v0.64](https://reactnative.dev/docs/getting-started)
+- [React Navigation v5](https://reactnavigation.org/docs/getting-started/)
+- [Firebase Auth](https://firebase.google.com/docs/reference/rest/auth)
+- [Firebase Realtime Database](https://firebase.google.com/docs/database)
+- [React Native Reanimated v2](https://docs.swmansion.com/react-native-reanimated/)
+
+
 ## Demo
 To test the app in your android device, you can download the **.apk** file from here: [shopping](https://drive.google.com/file/d/1QzceGiaLU72TZSFnQF_250pXH2KnCQHX/view?usp=sharing).
 
