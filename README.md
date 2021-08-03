@@ -15,16 +15,16 @@ The app contains a simple authentication system implemented using [Firebase Auth
 To ensure the right credentials are to be provided whenever the user enters some data, all forms in this project contain some basic validation algorithms that are reused whenever validation is required.
 
 ## Databases
-Most data in this project (products, orders, users) is stored in [Firebase Realtime Database](https://firebase.google.com/docs/database). Some other user-specific data (auth-token, favorite products) is stored locally in the device using [AsyncStorage](https://github.com/react-native-async-storage/async-storage).
+Most data in this project (products, orders, users) is stored in [Firebase Realtime Database](https://firebase.google.com/docs/database). Some other user-specific data (auth-token, favorite products) are stored locally in the device using [AsyncStorage](https://github.com/react-native-async-storage/async-storage).
 
 ## Navigation
 All navigation in this project is built with [React Navigation v5](https://reactnavigation.org/docs/getting-started/).
 
 ## Animations
-The app contains different types of animations on different screens to provide a smooth user experience, all animations are implemented using the [React Native Reanimated](https://docs.swmansion.com/react-native-reanimated/) library, which means the vast majority of calculations required to animate different style properties are all done in the UI Thread in the native side, so the bridge between native and react native is very infrequently crossed, therefore, animtions are never interrupted even if the JS Thread is heavily busy, resulting in smooth animations that would run at 60fps even in low-end devices.
+The app contains different types of animations on different screens to provide a smoother user experience, all animations are implemented using the [React Native Reanimated](https://docs.swmansion.com/react-native-reanimated/) library, which means the vast majority of calculations required to animate different style properties are all done in the UI Thread in the native side, so the bridge between native and react native is very infrequently crossed, therefore, animtions are never interrupted even if the JS Thread is heavily busy, resulting in smooth animations that would run at 60fps even in low-end devices.
 
 ## Designs
-All design assets used in this app (screens, components, input fields, icons...) are made by the owner of this project.
+All design assets used in this app (screens, components, icons...) are made by the owner of this project.
 
 
 ## Usage
