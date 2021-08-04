@@ -7,7 +7,7 @@
 </br>
 
 ## Description
-This project is a simplified implementation of a shopping system, the project aims to provide the basic features that are expected to be found in a mobile e-commerce applicaion where users can purchase and sell products. To navigate through the app, users have to authenticate themselves. Once logged-in, users can scroll through the list of available products, add different products to the cart, and make orders. Users can also add, edit, remove their own products into the main store. 
+This project is a simplified implementation of a shopping system, the project aims to provide the basic features that are expected to be found in a mobile e-commerce application where users can purchase and sell products. To navigate through the app, users have to authenticate themselves. Once logged-in, users can scroll through the list of available products, add different products to the cart, and make orders. Users can also add, edit, remove their own products into the main store. 
 
 ## Authentication and Security
 The app contains a simple authentication system implemented using [Firebase Auth REST API](https://firebase.google.com/docs/reference/rest/auth) for the backend. If the authentication process is successful, a unique token is sent from the backend to the user in concern, the token is then stored locally in the device and will expire exactly after 1h of its receival. When expired, the token is deleted from the device and the user will be automatically signed out and prompt to the login screen. Otherwise, if something went wrong with authentication process, the proper error message will be displayed in the screen.
